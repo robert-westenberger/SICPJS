@@ -1,0 +1,1 @@
+I skipped exercises that I could do in my head. 
