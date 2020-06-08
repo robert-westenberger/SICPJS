@@ -1,42 +1,32 @@
-
-function square(n) {
-  return n^2;
-}
-function isEven(n) {
+function is_even(n) {
   return n % 2 === 0;
 }
-//Function that computes the exponential of a number modulo another number.
-function expmod(base, exp, m) {
-  if (exp === 0) {
-    return 1;
-  }
-  if (isEven(exp)) {
-    return square(expmod(base, exp / 2, m)) % m;
-  }
-  return base * expmod(base, exp - 1,m) % m;
+function square(x) {
+  return x * x;
 }
 
-function random(n) {
-  return Math.ceil(Math.random() * (n));
+// tests whether a^n is congruent (positive integer that is the area of a right triangle
+// with 3 rational sides) to a modulo n for every a < n.
+function carmichael(n) {
+  //
+  function expmod(base, exp, m) {
+    return exp === 0
+      ? 1
+      : is_even(exp)
+        ? square(expmod(base, exp / 2, m)) % m
+        : (base * expmod(base, exp - 1, m)) % m;
+  }
+  function fermat_test(n, a) {
+    return expmod(a, n, n) === a;
+  }
+  function iter(n, i) {
+    return i === n
+      ? true
+      : fermat_test(n, i)
+        ? iter(n, i + 1)
+        : false;
+  }
+  return iter(n, 2);
 }
 
-function fermatTest(n) {
-  function tryIt(x) {
-    return expmod(x, n, n) === x;
-  }
-  return tryIt(1 + random(n - 1));
-}
-
-function fastPrimalityTest(n, times) {
-  if (times === 0) {
-    return true;
-  }
-  if (fermatTest(n)) {
-    return fastPrimalityTest(n, times-1);
-  }
-  return false;
-}
-
-// carmichael numbers are numbers that fool the fermat test
-const carmichaelNumbers = [561, 1105, 1729, 2465, 2821, 6601];
-console.log(fastPrimalityTest(561, 5));
+console.log(carmichael(561));
