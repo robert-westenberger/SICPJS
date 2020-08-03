@@ -35,4 +35,3 @@ function simpsonsRule(f, a, b, n) {
 // console.log(integral(cube, 0, 1, 0.01));
 
 const myFun = x => x + 4;
-console.log(myFun(5));
