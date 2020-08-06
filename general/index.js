@@ -70,9 +70,31 @@ const generate_list_iter = (length, currIndex = 0) => {
     }
 }
 
+const square = (x) => {
+    return x*x;
+}
+/**
+ *
+ * @param x
+ * @returns {Pair|Number}
+ */
+const count_leaves = (x) => {
+    if (is_null(x)) {
+        return 0;
+    }
+    if (!is_pair(x)) {
+        return 1;
+    }
+    return count_leaves(head(x)) + count_leaves(tail(x));
+}
+
+const display = (x) => {
+    
+}
 
 module.exports = {
     list_length,
+    count_leaves,
     list,
     head,
     tail,
@@ -82,4 +104,5 @@ module.exports = {
     append,
     for_each,
     print_list,
+    square
 }

@@ -15,4 +15,4 @@ const squareList2 = (items) => {
         [current_val * current_val, ...squareList2(items)];
 }
 // squareList1([1, 2, 3, 4]);
-console.log(squareList2([1, 2, 3, 4]));
+// console.log(squareList2([1, 2, 3, 4]));

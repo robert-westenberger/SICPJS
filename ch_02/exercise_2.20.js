@@ -18,9 +18,9 @@ const brooks = (curry_func, argList) => {
     return current_val;
 }
 
-console.log(brooks_curried([brooks_curried, [add, 3, 4]]));
-console.log(brooks_curried([brooks_curried, [brooks_curried,
-    [add, 3, 4]]]));
+// console.log(brooks_curried([brooks_curried, [add, 3, 4]]));
+// console.log(brooks_curried([brooks_curried, [brooks_curried,
+//     [add, 3, 4]]]));
 
 //
 // console.log(brooks(add, [3, 4])); // 7
