@@ -4,6 +4,9 @@ class Pair {
         this.head = head;
         this.tail = tail;
     }
+    toString() {
+        return `[${this.head}, ${this.tail}]`
+    }
 }
 
 
@@ -89,7 +92,7 @@ const count_leaves = (x) => {
 }
 
 const display = (x) => {
-    
+    return console.log(x.toString());
 }
 
 module.exports = {
@@ -104,5 +107,6 @@ module.exports = {
     append,
     for_each,
     print_list,
-    square
+    square,
+    display
 }
