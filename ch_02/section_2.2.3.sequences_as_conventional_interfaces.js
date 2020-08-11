@@ -17,9 +17,9 @@ import {
 const filterOdd = (items) => filter(is_odd, items);
 const filterTheList = filterOdd(list(1, 2, 3,4,5,6,7));
 const accumulateAdd = (items) => accumulate(plus, 0, items);
-const accumulateAddTheList = accumulateAdd(list(1,2,3,4,5,6));
+// const accumulateAddTheList = accumulateAdd(list(1,2,3,4,5,6));
 const accumulatePair = (items) => accumulate(pair, null, items);
-const accumulatePairTheList = accumulatePair(list(1,2,3,4,5));
+// const accumulatePairTheList = accumulatePair(list(1,2,3,4,5));
 
 
 const sumOddSquares = (tree) => accumulate(plus, 0, map(square, filter(is_odd, enumerate_tree(tree))));
