@@ -11,3 +11,4 @@ import { } from "./ch_02/exercise_2.30";
 import { } from "./ch_02/exercise_2.32";
 import { } from "./ch_02/section_2.2.3.sequences_as_conventional_interfaces";
 import { } from "./ch_02/exercise_2.33";
+import { } from "./ch_02/exercise_2.34";
