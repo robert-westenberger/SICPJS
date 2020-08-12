@@ -159,6 +159,7 @@ const filter = (predicate, sequence) => {
 }
 
 const accumulate = (op, initial, sequence) => {
+
     if (is_null(sequence)) {
         return initial;
     }
@@ -193,6 +194,8 @@ const enumerate_tree = (tree) => {
     }
     return append(enumerate_tree(head(tree)), enumerate_tree(tail(tree)));
 }
+
+
 
 module.exports = {
     list_length,
