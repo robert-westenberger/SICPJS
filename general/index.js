@@ -175,7 +175,7 @@ const enumerate_interval = (low, high) => {
 }
 
 const plus = (x, y) => x + y;
-
+const multiply = (x, y) => x * y;
 const fib = n => {
     if (n === 0) {
         return 0;
@@ -222,5 +222,6 @@ module.exports = {
     enumerate_tree,
     enumerate_interval,
     fib,
-    is_even
+    is_even,
+    multiply
 }
