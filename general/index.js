@@ -167,6 +167,14 @@ const accumulate = (op, initial, sequence) => {
         accumulate(op, initial, tail(sequence)));
 }
 
+const accumulate_n = (op, initial, seqs) => {
+    if (is_null(head(seqs))) {
+        return null;
+    }
+    return pair(accumulate(op, initial, map((item) => head(item), seqs)),
+        accumulate_n(op, initial, map((item) => tail(item), seqs)));
+}
+
 const enumerate_interval = (low, high) => {
     if (low > high) {
         return null;
@@ -218,6 +226,7 @@ module.exports = {
     filter,
     is_odd,
     accumulate,
+    accumulate_n,
     plus,
     enumerate_tree,
     enumerate_interval,
