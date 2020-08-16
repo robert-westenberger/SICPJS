@@ -54,4 +54,3 @@ const matrix_times_matrix = (matrix_1, matrix_2) => {
     }, matrix_1);
 }
 const test_3 = matrix_times_matrix(matrix_02, matrix_03);
-display(test_3);

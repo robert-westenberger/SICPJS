@@ -183,6 +183,8 @@ const enumerate_interval = (low, high) => {
 }
 
 const plus = (x, y) => x + y;
+const divide =  (x, y) => x / y;
+const subtract =  (x, y) => x - y;
 const multiply = (x, y) => x * y;
 const fib = n => {
     if (n === 0) {
@@ -232,5 +234,6 @@ module.exports = {
     enumerate_interval,
     fib,
     is_even,
-    multiply
+    multiply,
+    subtract, divide
 }
