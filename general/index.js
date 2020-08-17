@@ -175,6 +175,18 @@ const accumulate_n = (op, initial, seqs) => {
         accumulate_n(op, initial, map((item) => tail(item), seqs)));
 }
 
+// Similar to accumulate, except that it combines elements working
+// in the opposite direction (left to right)
+const fold_left = (op, initial, sequence) => {
+    const iter = (result, rest) => {
+        if (is_null(rest)) {
+            return result;
+        }
+        return iter(op(result, head(rest)), tail(rest));
+    }
+    return iter(initial, sequence);
+}
+
 const enumerate_interval = (low, high) => {
     if (low > high) {
         return null;
@@ -235,5 +247,6 @@ module.exports = {
     fib,
     is_even,
     multiply,
-    subtract, divide
+    subtract, divide,
+    fold_left
 }
