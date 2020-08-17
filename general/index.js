@@ -198,6 +198,7 @@ const plus = (x, y) => x + y;
 const divide =  (x, y) => x / y;
 const subtract =  (x, y) => x - y;
 const multiply = (x, y) => x * y;
+const divides = (a, b) => a % b === 0;
 const fib = n => {
     if (n === 0) {
         return 0;
@@ -216,6 +217,49 @@ const enumerate_tree = (tree) => {
     }
     return append(enumerate_tree(head(tree)), enumerate_tree(tail(tree)));
 }
+/**
+ * sec 2.2.3
+ * @param f
+ * @param seq
+ * @returns {*}
+ */
+const flatmap = (f, seq) => accumulate(
+    append, null, map(f, seq)
+)
+
+
+
+
+// TODO: convert to iterative recursive
+function find_divisor(n, test_divisor) {
+    if (square(test_divisor) > n ) {
+        return n;
+    }
+    if (divides(test_divisor, n)) {
+        return test_divisor;
+    }
+    return find_divisor(n, test_divisor + 1);
+}
+
+function smallest_divisor(n) {
+    return find_divisor(n, 2);
+}
+
+function is_prime(n) {
+
+    const is_prime = n === smallest_divisor(n);
+    return is_prime;
+}
+
+const is_prime_sum = (the_pair) => {
+    return is_prime(head(the_pair) + head(tail(the_pair)));
+}
+
+
+const remove = (item, sequence) => filter(
+    x => !(x === item),
+    sequence
+);
 
 
 
@@ -247,6 +291,11 @@ module.exports = {
     fib,
     is_even,
     multiply,
-    subtract, divide,
-    fold_left
+    subtract,
+    divide,
+    divides,
+    fold_left,
+    flatmap,
+    is_prime_sum,
+    remove
 }
