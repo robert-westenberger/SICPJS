@@ -262,6 +262,10 @@ const remove = (item, sequence) => filter(
 );
 
 
+const make_pair_sum = (p) => list(
+    head(p), head(tail(p)),
+    head(p) + head(tail(p))
+);
 
 module.exports = {
     list_length,
@@ -297,5 +301,6 @@ module.exports = {
     fold_left,
     flatmap,
     is_prime_sum,
-    remove
+    remove,
+    make_pair_sum
 }
