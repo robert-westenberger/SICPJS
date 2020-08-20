@@ -38,5 +38,3 @@ const uniqueSumTriples = (n, s) => {
         return does_sum_to_s(item, s);
     }, triples);
 }
-
-// display(uniqueSumTriples(6, 6));
