@@ -229,7 +229,6 @@ const flatmap = (f, seq) => accumulate(
 
 
 
-
 // TODO: convert to iterative recursive
 function find_divisor(n, test_divisor) {
     if (square(test_divisor) > n ) {
@@ -267,6 +266,22 @@ const make_pair_sum = (p) => list(
     head(p) + head(tail(p))
 );
 
+/**
+ * section 2.3.1 returns the sublist of the list beginning
+ * with the first occurrence of the string if string is in the
+ * sequence, otherwise return null
+ * @param item
+ * @param seq
+ * @returns {Pair | null}
+ */
+const member = (item, seq) => {
+    if (is_null(seq)) {
+        return null;
+    }
+    return item === head(seq) ? seq : member(item, tail(seq));
+}
+
+
 module.exports = {
     list_length,
     count_leaves,
@@ -277,6 +292,7 @@ module.exports = {
     is_null,
     pair,
     append,
+    member,
     for_each,
     print_list,
     square,

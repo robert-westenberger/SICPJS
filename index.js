@@ -20,3 +20,4 @@ import { } from "./ch_02/section_2.2.3.sequences_as_conventional_interfaces";
 // import { } from "./ch_02/exercise_2.40";
 // import { } from "./ch_02/exercise_2.41";
 import { } from "./ch_02/exercise_2.42";
+import { } from "./ch_02/exercise_2.54";
