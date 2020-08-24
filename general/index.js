@@ -281,8 +281,23 @@ const member = (item, seq) => {
     return item === head(seq) ? seq : member(item, tail(seq));
 }
 
+const is_string = xs => typeof xs === "string";
+const is_variable = is_string;
+const is_undefined = xs => typeof xs === "undefined";
+const is_boolean = xs => typeof xs === "boolean";
+const is_function= xs => typeof xs === "function";
+const is_NaN= x => isNaN;
+const has_own_property = Object.hasOwnProperty;
+const is_object = xs => typeof xs === "object" || is_function(xs);
 
 module.exports = {
+    is_string,
+    is_variable,
+    is_object,
+    has_own_property,
+    is_NaN,
+    is_boolean,
+    is_undefined,
     list_length,
     count_leaves,
     list,

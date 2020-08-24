@@ -9,7 +9,8 @@
 // import { } from "./ch_02/section_2.2.2.hierarchical_structures";
 // import { } from "./ch_02/exercise_2.30";
 // import { } from "./ch_02/exercise_2.32";
-import { } from "./ch_02/section_2.2.3.sequences_as_conventional_interfaces";
+// import { } from "./ch_02/section_2.2.3.sequences_as_conventional_interfaces";
+import { } from "./ch_02/section_2.3.2.example_symbolic_differentiation";
 // import { } from "./ch_02/exercise_2.33";
 // import { } from "./ch_02/exercise_2.34";
 // import { } from "./ch_02/exercise_2.35";
@@ -19,5 +20,5 @@ import { } from "./ch_02/section_2.2.3.sequences_as_conventional_interfaces";
 // import { } from "./ch_02/exercise_2.39";
 // import { } from "./ch_02/exercise_2.40";
 // import { } from "./ch_02/exercise_2.41";
-import { } from "./ch_02/exercise_2.42";
-import { } from "./ch_02/exercise_2.54";
+// import { } from "./ch_02/exercise_2.42";
+// import { } from "./ch_02/exercise_2.54";
