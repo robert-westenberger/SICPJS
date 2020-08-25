@@ -17,9 +17,6 @@ function is_sum(x) {
 }
 
 
-
-
-
 function addend(s) {
     return head(tail(s));
 }
@@ -71,6 +68,28 @@ const error = (msg) => {
 }
 
 
+const is_exp = (x) => {
+    return is_pair(x) && head(x) === "**";
+}
+const base = (s) => {
+    return head(tail(s));
+}
+const exponent = (s) => {
+    return head(tail(tail(s)));
+}
+const make_exp = (base, exponent) => {
+    if (exponent === 0) {
+        return 1;
+    }
+    if (exponent === 1) {
+        return base;
+    }
+    if (is_number(base) && is_number(exponent)) {
+        return base ** exponent;
+    }
+    return list("**", base, exponent);
+}
+
 const deriv = (expression, variable) => {
 
     if (is_number(expression)) {
@@ -94,6 +113,9 @@ const deriv = (expression, variable) => {
                 variable),
                 multiplicand(expression)));
     }
+    if (is_exp(expression)) {
+        // return
+    }
     return error(expression,
         "unknown expression type in deriv");
 }
@@ -102,5 +124,3 @@ const deriv = (expression, variable) => {
 debugger;
 const derivation_01 = deriv(list("*", list("*", "x", "y"), list("+", "x", 3)), "x");
 // display(derivation_01);
-
-
