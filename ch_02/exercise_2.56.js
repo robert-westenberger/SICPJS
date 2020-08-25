@@ -84,9 +84,7 @@ const make_exp = (base, exponent) => {
     if (exponent === 1) {
         return base;
     }
-    if (is_number(base) && is_number(exponent)) {
-        return base ** exponent;
-    }
+
     return list("**", base, exponent);
 }
 
@@ -114,13 +112,17 @@ const deriv = (expression, variable) => {
                 multiplicand(expression)));
     }
     if (is_exp(expression)) {
-        // return
+        return make_product(make_product(exponent(expression),
+            make_exp(
+                base(expression),
+                exponent(expression) - 1)),
+            deriv(base(expression), variable));
     }
     return error(expression,
         "unknown expression type in deriv");
 }
 
 
-debugger;
-const derivation_01 = deriv(list("*", list("*", "x", "y"), list("+", "x", 3)), "x");
-// display(derivation_01);
+
+const derivation_01 = deriv(list("**", "x", 4), "x");
+display(derivation_01);
