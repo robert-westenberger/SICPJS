@@ -22,4 +22,5 @@ import { } from "./ch_02/section_2.3.2.example_symbolic_differentiation";
 // import { } from "./ch_02/exercise_2.41";
 // import { } from "./ch_02/exercise_2.42";
 // import { } from "./ch_02/exercise_2.54";
-import { } from "./ch_02/exercise_2.56";
+// import { } from "./ch_02/exercise_2.56";
+import { } from "./ch_02/exercise_2.57";
