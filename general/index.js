@@ -361,8 +361,40 @@ const operation_table = make_table();
 const get = operation_table("lookup");
 const put = operation_table("insert");
 
+function attach_tag(type_tag, contents) {
+    return pair(type_tag, contents);
+}
+function type_tag(datum) {
+    return is_pair(datum)
+        ? head(datum)
+        : console.error(datum, "bad tagged datum -- type_tag");
+}
+function contents(datum) {
+    return is_pair(datum)
+        ? tail(datum)
+        : console.error(datum, "bad tagged datum -- contents");
+}
 
+
+const apply = (fun, args) => Function.prototype.apply(fun, args);
+function apply_generic(op, args) {
+    const type_tags = map(type_tag, args);
+    const fun = get(op, type_tags);
+    return fun !== undefined
+        ? apply(fun, map(contents, args))
+        : console.error(list(op, type_tags),
+            "No method for these types in apply_generic");
+}
+function is_same_variable(v1, v2) {
+    return is_variable(v1) &&
+        is_variable(v2) && v1 === v2;
+}
 module.exports = {
+    is_same_variable,
+    attach_tag,
+    apply_generic,
+    type_tag,
+    contents,
     is_string,
     is_variable,
     is_object,
