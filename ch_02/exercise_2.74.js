@@ -44,3 +44,6 @@ import {
     is_variable,
     is_pair, display, square, attach_tag, put,
 } from "../general/index";
+
+
+const division_one_records = list();
