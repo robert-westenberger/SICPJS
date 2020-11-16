@@ -376,7 +376,8 @@ function contents(datum) {
 }
 
 
-const apply = (fun, args) => Function.prototype.apply(fun, args);
+const apply = (fun, args) => accumulate(fun, null, args);
+
 function apply_generic(op, args) {
     const type_tags = map(type_tag, args);
     const fun = get(op, type_tags);
