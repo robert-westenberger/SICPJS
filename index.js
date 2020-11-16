@@ -11,7 +11,7 @@
 // import { } from "./ch_02/exercise_2.32";
 // import { } from "./ch_02/section_2.2.3.sequences_as_conventional_interfaces";
 // import { } from "./ch_02/section_2.3.2.example_symbolic_differentiation";
-import { } from "./ch_02/section_2.4.multiple_representations_for_abstract_data";
+// import { } from "./ch_02/section_2.4.multiple_representations_for_abstract_data";
 // import { } from "./ch_02/exercise_2.33";
 // import { } from "./ch_02/exercise_2.34";
 // import { } from "./ch_02/exercise_2.35";

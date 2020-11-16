@@ -1,13 +1,11 @@
 import {
-    square,
     list,
     head,
     tail,
-    attach_tag,
-    put,
     get,
     is_number,
-    is_variable, is_pair,
+    is_variable,
+    is_pair, display, square, attach_tag, put,
 } from "../general/index";
 
 
@@ -73,31 +71,24 @@ const error = (msg) => {
 }
 
 
-const regDeriv = (expression, variable) => {
-
-    if (is_number(expression)) {
-        return 0;
-    }
-    if (is_variable(expression)) {
-        if (is_same_variable(expression, variable)) {
-            return 1;
-        }
-        return 0;
-    }
-    if (is_sum(expression)) {
-        return make_sum(regDeriv(addend(expression), variable),
-            regDeriv(augend(expression), variable));
-    }
-    if (is_product(expression)) {
-        return make_sum(make_product(multiplier(expression),
-            regDeriv(multiplicand(expression),
-                variable)),
-            make_product(regDeriv(multiplier(expression),
-                variable),
-                multiplicand(expression)));
-    }
-    return error(expression,
-        "unknown expression type in deriv");
+const regDeriv = (exp, variable) => {
+    return is_number(exp)
+        ? 0
+        : is_variable(exp)
+            ? (is_same_variable(exp, variable) ? 1 : 0)
+            : is_sum(exp)
+                ? make_sum(regDeriv(addend(exp), variable),
+                    regDeriv(augend(exp), variable))
+                : is_product(exp)
+                    ? make_sum(make_product(multiplier(exp),
+                        regDeriv(multiplicand(exp),
+                            variable)),
+                        make_product(regDeriv(multiplier(
+                            exp),
+                            variable),
+                            multiplicand(exp)))
+                    : error(exp,
+                        "unknown expression type in deriv");
 }
 
 function operator(exp) {
@@ -107,17 +98,53 @@ function operands(exp) {
     return tail(exp);
 }
 
-const data_directed_deriv = (exp, variable) => {
-    if (is_number(exp)) {
+
+function install_symbolic_differentiation_package() {
+    // internal functions
+    function mult(expression, variable) {
+        const plier = head(expression);
+        const plicand = head(tail(expression));
+
+        return make_sum(make_product(plier,
+            data_directed_deriv(plicand,
+                variable)),
+            make_product(data_directed_deriv(plier,
+                variable),
+                plicand));
+    }
+    function add(expression, variable) {
+        const addend_value = head(expression);
+        const augend_value = head(tail(expression));
+
+        return make_sum(data_directed_deriv(addend_value, variable),
+            data_directed_deriv(augend_value, variable))
+    }
+
+    put("deriv", "*", mult);
+    put("deriv", "+", add);
+    return "done";
+}
+
+install_symbolic_differentiation_package();
+
+
+const data_directed_deriv = (expression, variable) => {
+    if (is_number(expression)) {
         return 0;
     }
-    if (is_variable(exp)) {
-        if (is_same_variable(exp, variable)) {
+    if (is_variable(expression)) {
+        if (is_same_variable(expression, variable)) {
             return 1;
         }
         return 0;
     }
-    // using
-    return get("deriv", operator(exp))(operands(exp), variable);
+
+    return get("deriv", operator(expression))(operands(expression), variable);
 }
 
+const expr = list("*", "x", 4);
+const expr2 = list("*", list("*", "x", "y"), list("+", "x", 4));
+const t0 = data_directed_deriv( expr2, "x");
+const t1 = regDeriv(expr2, "x");
+display(t0);
+display(t1);
