@@ -390,7 +390,10 @@ function is_same_variable(v1, v2) {
     return is_variable(v1) &&
         is_variable(v2) && v1 === v2;
 }
+const math_atan = Math.atan;
+const math_sqrt = Math.sqrt;
 module.exports = {
+    math_atan, math_sqrt,
     is_same_variable,
     attach_tag,
     apply_generic,
