@@ -31,7 +31,7 @@ function install_javascript_number_package() {
     //     (x, y) => tag(x + y));
     put("add", list("javascript_number", "javascript_number"),
         (x, y) => {
-            console.log(x, y);
+
             return tag(x+y);
         });
     put("sub", list("javascript_number", "javascript_number"),

@@ -159,7 +159,6 @@ const filter = (predicate, sequence) => {
 }
 
 const accumulate = (op, initial, sequence) => {
-
     if (is_null(sequence)) {
         return initial;
     }
@@ -376,11 +375,15 @@ function contents(datum) {
 }
 
 
-const apply = (fun, args) => accumulate(fun, null, args);
+const apply = (fun, args) => {
+
+    return accumulate(fun, null, args);
+}
 
 function apply_generic(op, args) {
     const type_tags = map(type_tag, args);
     const fun = get(op, type_tags);
+
     return fun !== undefined
         ? apply(fun, map(contents, args))
         : console.error(list(op, type_tags),
