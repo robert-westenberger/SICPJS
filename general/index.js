@@ -30,6 +30,15 @@ const list = (...listItems) => {
 
     return listItems.length > 0 ? pair(listItem, list(...listItems)) : pair(listItem, null);
 }
+// list back to native array, so can use destructuring. Seems like Source uses
+// destructuring for their apply_in_underlying_javascript builtin func
+const listToArray = (the_list) => {
+    const return_value = [];
+    for_each((item) => {
+        return_value.push(item);
+    }, the_list);
+    return return_value;
+}
 /**
  * Return nth item of items
  * @param items
@@ -375,10 +384,8 @@ function contents(datum) {
 }
 
 
-const apply = (fun, args) => {
+const apply = (fun, args) => fun(...listToArray(args));
 
-    return accumulate(fun, null, args);
-}
 
 function apply_generic(op, args) {
     const type_tags = map(type_tag, args);
