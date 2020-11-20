@@ -405,10 +405,13 @@ const math_sqrt = Math.sqrt;
 module.exports = {
     math_atan, math_sqrt,
     is_same_variable,
+    apply,
     attach_tag,
     apply_generic,
     type_tag,
+    assoc,
     contents,
+    set_tail,
     is_string,
     is_variable,
     is_object,
