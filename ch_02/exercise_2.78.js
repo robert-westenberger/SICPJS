@@ -2,7 +2,7 @@ import {
     list,
   display,
     set_tail,
-    apply,map,
+    apply,map, is_number,
     assoc, tail, pair,
     is_pair, head
 } from "../general/index";
@@ -21,12 +21,12 @@ function attach_tag(type_tag, contents) {
 function type_tag(datum) {
     return is_pair(datum)
         ? head(datum)
-        : console.error(datum, "bad tagged datum -- type_tag");
+        : is_number(datum) ? "javascript_number" : null;
 }
 function contents(datum) {
     return is_pair(datum)
         ? tail(datum)
-        : console.error(datum, "bad tagged datum -- contents");
+        : datum;
 }
 
 function apply_generic(op, args) {
@@ -122,6 +122,8 @@ const n1 = make_javascript_number(4);
 const n2 = make_javascript_number(5);
 
 
-const t0 = add(n1, n2);
 
-// display(t0);
+// console.log(add(4, 5));
+// console.log(add(n1, n2));
+
+
