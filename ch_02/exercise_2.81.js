@@ -28,6 +28,13 @@ function apply_generic(op, args) {
         if (length(args) === 2) {
             const type1 = head(type_tags);
             const type2 = head(tail(type_tags));
+
+            //implementation of PART C of 2.81
+            if (type1 === type2) {
+                return console.error(list(op, type_tags),
+                    "No method for these types");
+            }
+
             const a1 = head(args);
             const a2 = head(tail(args));
             const t1_to_t2 = get_coercion(type1, type2);
@@ -202,7 +209,8 @@ function install_javascript_number_package() {
     put("make", "javascript_number",
         x => tag(x));
     put("exp", list("javascript_number", "javascript_number"),
-        (x, y) => tag(math_exp(x, y)));
+        // (x, y) => tag((math_exp(x, y))));
+        (x, y) => tag((Math.exp(x + y))));
     return "done";
 }
 install_javascript_number_package();
@@ -217,32 +225,33 @@ function make_complex_from_mag_ang(r, a){
     return get("make_from_mag_ang", "complex")(r, a);
 }
 
-put_coercion("javascript_number", "complex",
-    javascript_number_to_complex);
+
 
 
 function make_javascript_number(n) {
     return get("make", "javascript_number")(n);
 }
 
-function javascript_number_to_javascript_number(n) {
-    return n;
-}
-function complex_to_complex(n) {
-    return n;
-}
-put_coercion("javascript_number", "javascript_number",
-    javascript_number_to_javascript_number);
-put_coercion("complex", "complex",
-    complex_to_complex);
-
+// function javascript_number_to_javascript_number(n) {
+//     return n;
+// }
+// function complex_to_complex(n) {
+//     return n;
+// }
+// put_coercion("javascript_number", "javascript_number",
+//     javascript_number_to_javascript_number);
+// put_coercion("complex", "complex",
+//     complex_to_complex);
+put_coercion("javascript_number", "complex",
+    javascript_number_to_complex);
 function exp(x, y) {
     return apply_generic("exp", list(x, y));
 }
 const c = make_complex_from_real_imag(4, 3);
 const d = make_complex_from_real_imag(5, 6);
-// const c = make_javascript_number(4);
-// const d = make_javascript_number(2);
+const e = make_javascript_number(7);
+const f = make_javascript_number(2);
 //
 debugger;
-exp(c, d);
+// const ans = exp(c, d);
+// console.log(ans);
