@@ -9,8 +9,7 @@ import {
     math_atan, math_sqrt,
     is_pair, display, square, attach_tag, put,apply_generic
 } from "../general/index";
-
-
+//todo wip
 
 function add(x, y) {
     return apply_generic("add", list(x, y));
@@ -24,6 +23,9 @@ function mul(x, y) {
 function div(x, y) {
     return apply_generic("div", list(x, y));
 }
+function is_equal(x, y) {
+    return apply_generic("is_equal", list(x, y));
+}
 function real_part(z) {
     return apply_generic("real_part", list(z));
 }
@@ -31,12 +33,12 @@ function imag_part(z) {
     return apply_generic("imag_part", list(z));
 }
 function magnitude(z) {
-    display(z);
     return apply_generic("magnitude", list(z));
 }
 function angle(z) {
     return apply_generic("angle", list(z));
 }
+
 
 function install_rectangular_package() {
     // internal functions
@@ -68,7 +70,9 @@ function install_rectangular_package() {
         (r, a) => tag(make_from_mag_ang(r, a)));
     return "done";
 }
+
 install_rectangular_package();
+
 function install_polar_package() {
     // internal functions
     function magnitude(z) { return head(z); }
@@ -97,7 +101,9 @@ function install_polar_package() {
         (r, a) => tag(make_from_mag_ang(r, a)));
     return "done";
 }
+
 install_polar_package();
+
 function install_complex_package() {
     // imported functions from rectangular and polar packages
     function make_from_real_imag(x, y) {
@@ -143,16 +149,56 @@ function install_complex_package() {
         (r, a) => tag(make_from_mag_ang(r, a)));
     return "done";
 }
-install_complex_package();
-function make_complex_from_real_imag(x, y){
-    return get("make_from_real_imag", "complex")(x, y);
-}
-function make_complex_from_mag_ang(r, a){
-    return get("make_from_mag_ang", "complex")(r, a);
-}
-put("real_part", list("complex"), real_part);
-put("imag_part", list("complex"), imag_part);
-put("magnitude", list("complex"), magnitude);
-put("angle",     list("complex"), angle);
 
-const z = make_complex_from_real_imag(3, 4);
+install_complex_package();
+function install_rational_package() {
+    // internal functions
+    function numer(x) {
+        return head(x);
+    }
+    function denom(x) {
+        return tail(x);
+    }
+    function make_rat(n, d) {
+        const g = gcd(n, d);
+        return pair(n / g, d / g);
+    }
+    function add_rat(x, y) {
+        return make_rat(numer(x) * denom(y) + numer(y) * denom(x),
+            denom(x) * denom(y));
+    }
+    function sub_rat(x, y) {
+        return make_rat(numer(x) * denom(y) - numer(y) * denom(x),
+            denom(x) * denom(y));
+    }
+    function mul_rat(x, y) {
+        return make_rat(numer(x) * numer(y),
+            denom(x) * denom(y));
+    }
+    function div_rat(x, y) {
+        return make_rat(numer(x) * denom(y),
+            denom(x) * numer(y));
+    }
+
+    // interface to rest of the system
+    function tag(x) {
+        return attach_tag("rational", x);
+    }
+    put("add", list("rational", "rational"),
+        (x, y) => tag(add_rat(x, y)));
+    put("sub", list("rational", "rational"),
+        (x, y) => tag(sub_rat(x, y)));
+    put("mul", list("rational", "rational"),
+        (x, y) => tag(mul_rat(x, y)));
+    put("div", list("rational", "rational"),
+        (x, y) => tag(div_rat(x, y)));
+    put("make", "rational",
+        (n, d) => tag(make_rat(n, d)));
+    return "done";
+}
+
+function make_rational(n, d) {
+    return get("make", "rational")(n, d);
+}
+
+install_rational_package();

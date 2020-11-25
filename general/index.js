@@ -100,6 +100,13 @@ const count_leaves = (x) => {
     return count_leaves(head(x)) + count_leaves(tail(x));
 }
 
+function length(items) {
+    return is_null(items)
+        ? 0
+        : 1 + length(tail(items));
+}
+
+
 const display = (x) => {
     return console.log(x.toString());
 }
@@ -384,17 +391,83 @@ function contents(datum) {
 }
 
 
+let coercion_list = null;
+
+function clear_coercion_list() {
+    coercion_list = null;
+}
+
+function put_coercion(type1, type2, item) {
+    if (is_null(get_coercion(type1, type2))) {
+        coercion_list = pair(list(type1, type2, item),
+            coercion_list);
+    } else {
+        return coercion_list;
+    }
+}
+
+function get_coercion(type1, type2) {
+    function get_type1(list_item) {
+        return head(list_item);
+    }
+    function get_type2(list_item) {
+        return head(tail(list_item));
+    }
+    function get_item(list_item) {
+        return head(tail(tail(list_item)));
+    }
+    function get_coercion_iter(items) {
+        if (is_null(items)) {
+            return undefined;
+        } else {
+            const top = head(items);
+            return equal(type1, get_type1(top)) &&
+            equal(type2, get_type2(top))
+                ? get_item(top)
+                : get_coercion_iter(tail(items));
+        }
+    }
+    return get_coercion_iter(coercion_list);
+}
+
 const apply = (fun, args) => fun(...listToArray(args));
-
-
+// function apply_generic(op, args) {
+//     const type_tags = map(type_tag, args);
+//     const fun = get(op, type_tags);
+//
+//     return fun !== undefined
+//         ? apply(fun, map(contents, args))
+//         : console.error(list(op, type_tags),
+//             "No method for these types in apply_generic");
+// }
 function apply_generic(op, args) {
     const type_tags = map(type_tag, args);
     const fun = get(op, type_tags);
-
-    return fun !== undefined
-        ? apply(fun, map(contents, args))
-        : console.error(list(op, type_tags),
-            "No method for these types in apply_generic");
+    if (!is_undefined(fun)) {
+        return apply(fun, map(contents, args));
+    } else {
+        if (length(args) === 2) {
+            const type1 = head(type_tags);
+            const type2 = head(tail(type_tags));
+            const a1 = head(args);
+            const a2 = head(tail(args));
+            const t1_to_t2 = get_coercion(type1, type2);
+            const t2_to_t1 = get_coercion(type2, type1);
+            if (! is_undefined(t1_to_t2)) {
+                return apply_generic(op,list(t1_to_t2(a1),
+                    a2));
+            } else if (! is_undefined(t2_to_t1)) {
+                return apply_generic(op, list(a1,
+                    t2_to_t1(a2)));
+            } else {
+                return console.error(list(op, type_tags),
+                    "No method for these types");
+            }
+        } else {
+            return console.error(list(op, type_tags),
+                "No method for these types");
+        }
+    }
 }
 function is_same_variable(v1, v2) {
     return is_variable(v1) &&
@@ -402,9 +475,18 @@ function is_same_variable(v1, v2) {
 }
 const math_atan = Math.atan;
 const math_sqrt = Math.sqrt;
+const math_exp = Math.exp;
+
+
+
+
+
+
+
 module.exports = {
     math_atan, math_sqrt,
     is_same_variable,
+    length,
     apply,
     attach_tag,
     apply_generic,
@@ -455,5 +537,8 @@ module.exports = {
     is_prime_sum,
     remove,
     make_pair_sum,
-    get, put
+    get, put, equal,
+    put_coercion,
+    get_coercion,
+    math_exp
 }

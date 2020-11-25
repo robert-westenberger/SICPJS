@@ -1,16 +1,53 @@
 import {
+    square,
     list,
     head,
     tail,
-    get,
-    is_number,
-    is_variable,
+    attach_tag,
+    put,
     pair,
-    math_atan, math_sqrt,
-    is_pair, display, square, attach_tag, put,apply_generic
+    get,
+    math_exp,
+    contents,
+    display, is_null, equal,
+    math_sqrt,
+    math_atan,
+    is_undefined,map,length,apply,type_tag,
+    put_coercion,
+    get_coercion
 } from "../general/index";
 
 
+
+function apply_generic(op, args) {
+    const type_tags = map(type_tag, args);
+    const fun = get(op, type_tags);
+    if (!is_undefined(fun)) {
+        return apply(fun, map(contents, args));
+    } else {
+        if (length(args) === 2) {
+            const type1 = head(type_tags);
+            const type2 = head(tail(type_tags));
+            const a1 = head(args);
+            const a2 = head(tail(args));
+            const t1_to_t2 = get_coercion(type1, type2);
+            const t2_to_t1 = get_coercion(type2, type1);
+            if (!is_undefined(t1_to_t2)) {
+                return apply_generic(op,list(t1_to_t2(a1),
+                    a2));
+            } else if (!is_undefined(t2_to_t1)) {
+                return apply_generic(op, list(a1,
+                    t2_to_t1(a2)));
+            } else {
+                return console.error(list(op, type_tags),
+                    "No method for these types");
+            }
+        } else {
+            return console.error(list(op, type_tags),
+                "No method for these types");
+        }
+    }
+}
 
 function add(x, y) {
     return apply_generic("add", list(x, y));
@@ -24,6 +61,7 @@ function mul(x, y) {
 function div(x, y) {
     return apply_generic("div", list(x, y));
 }
+
 function real_part(z) {
     return apply_generic("real_part", list(z));
 }
@@ -31,7 +69,6 @@ function imag_part(z) {
     return apply_generic("imag_part", list(z));
 }
 function magnitude(z) {
-    display(z);
     return apply_generic("magnitude", list(z));
 }
 function angle(z) {
@@ -68,7 +105,9 @@ function install_rectangular_package() {
         (r, a) => tag(make_from_mag_ang(r, a)));
     return "done";
 }
+
 install_rectangular_package();
+
 function install_polar_package() {
     // internal functions
     function magnitude(z) { return head(z); }
@@ -97,7 +136,9 @@ function install_polar_package() {
         (r, a) => tag(make_from_mag_ang(r, a)));
     return "done";
 }
+
 install_polar_package();
+
 function install_complex_package() {
     // imported functions from rectangular and polar packages
     function make_from_real_imag(x, y) {
@@ -143,16 +184,65 @@ function install_complex_package() {
         (r, a) => tag(make_from_mag_ang(r, a)));
     return "done";
 }
+
 install_complex_package();
+
+function install_javascript_number_package() {
+    function tag(x) {
+        return attach_tag("javascript_number", x);
+    }
+    put("add", list("javascript_number", "javascript_number"),
+        (x, y) => tag(x + y));
+    put("sub", list("javascript_number", "javascript_number"),
+        (x, y) => tag(x - y));
+    put("mul", list("javascript_number", "javascript_number"),
+        (x, y) => tag(x * y));
+    put("div", list("javascript_number", "javascript_number"),
+        (x, y) => tag(x / y));
+    put("make", "javascript_number",
+        x => tag(x));
+    put("exp", list("javascript_number", "javascript_number"),
+        (x, y) => tag(math_exp(x, y)));
+    return "done";
+}
+install_javascript_number_package();
+function javascript_number_to_complex(n) {
+    return make_complex_from_real_imag(contents(n), 0);
+}
 function make_complex_from_real_imag(x, y){
     return get("make_from_real_imag", "complex")(x, y);
 }
+
 function make_complex_from_mag_ang(r, a){
     return get("make_from_mag_ang", "complex")(r, a);
 }
-put("real_part", list("complex"), real_part);
-put("imag_part", list("complex"), imag_part);
-put("magnitude", list("complex"), magnitude);
-put("angle",     list("complex"), angle);
 
-const z = make_complex_from_real_imag(3, 4);
+put_coercion("javascript_number", "complex",
+    javascript_number_to_complex);
+
+
+function make_javascript_number(n) {
+    return get("make", "javascript_number")(n);
+}
+
+function javascript_number_to_javascript_number(n) {
+    return n;
+}
+function complex_to_complex(n) {
+    return n;
+}
+put_coercion("javascript_number", "javascript_number",
+    javascript_number_to_javascript_number);
+put_coercion("complex", "complex",
+    complex_to_complex);
+
+function exp(x, y) {
+    return apply_generic("exp", list(x, y));
+}
+const c = make_complex_from_real_imag(4, 3);
+const d = make_complex_from_real_imag(5, 6);
+// const c = make_javascript_number(4);
+// const d = make_javascript_number(2);
+//
+debugger;
+exp(c, d);

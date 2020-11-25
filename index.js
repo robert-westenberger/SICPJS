@@ -30,3 +30,7 @@
 // import { } from "./ch_02/exercise_2.75";
 // import { } from "./ch_02/exercise_2.77";
 // import { } from "./ch_02/exercise_2.78";
+// TODO: skip over exercise 2.79 and 2.90 for now
+// import { } from "./ch_02/exercise_2.79";
+// import { } from "./ch_02/section_2.5.systems_with_generic_operations";
+import { } from "./ch_02/exercise_2.81";
