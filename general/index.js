@@ -398,7 +398,7 @@ function clear_coercion_list() {
 }
 
 function put_coercion(type1, type2, item) {
-    if (is_null(get_coercion(type1, type2))) {
+    if (is_undefined(get_coercion(type1, type2))) {
         coercion_list = pair(list(type1, type2, item),
             coercion_list);
     } else {
