@@ -34,4 +34,5 @@
 // import { } from "./ch_02/exercise_2.79";
 // import { } from "./ch_02/section_2.5.systems_with_generic_operations";
 // import { } from "./ch_02/exercise_2.81";
-import { } from "./ch_02/exercise_2.82";
+// import { } from "./ch_02/exercise_2.82";
+import { } from "./ch_02/exercise_2.83";
