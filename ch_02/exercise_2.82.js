@@ -8,6 +8,7 @@ import {
     pair,
     get,
     math_exp,
+    accumulate,
     contents,
     display, is_null, equal,
     math_sqrt,
@@ -18,42 +19,57 @@ import {
 } from "../general/index";
 
 
-
+/** Exercise 2.82 handle any number of arguments.
+ * */
 function apply_generic(op, args) {
     const type_tags = map(type_tag, args);
     const fun = get(op, type_tags);
     if (!is_undefined(fun)) {
         return apply(fun, map(contents, args));
-    } else {
-        if (length(args) === 2) {
-            const type1 = head(type_tags);
-            const type2 = head(tail(type_tags));
-
-            //implementation of PART C of 2.81
-            if (type1 === type2) {
-                return console.error(list(op, type_tags),
-                    "No method for these types");
-            }
-
-            const a1 = head(args);
-            const a2 = head(tail(args));
-            const t1_to_t2 = get_coercion(type1, type2);
-            const t2_to_t1 = get_coercion(type2, type1);
-            if (!is_undefined(t1_to_t2)) {
-                return apply_generic(op,list(t1_to_t2(a1),
-                    a2));
-            } else if (!is_undefined(t2_to_t1)) {
-                return apply_generic(op, list(a1,
-                    t2_to_t1(a2)));
-            } else {
-                return console.error(list(op, type_tags),
-                    "No method for these types");
-            }
-        } else {
-            return console.error(list(op, type_tags),
-                "No method for these types");
-        }
     }
+
+    const coercionData = accumulate((currentItem, currentValue) => {
+
+        if (is_null(currentValue)) {
+            return pair(type_tag(currentItem)); // type
+        }
+
+        const currentItemType = type_tag(currentItem);
+        const currentValueType = type_tag(currentValue);
+
+        if (currentValueType === currentItemType) {
+            return currentValue;
+        }
+
+        const t1_to_t2 = get_coercion(currentValueType, currentItemType);
+        const t2_to_t1 = get_coercion(currentItemType, currentValueType);
+
+        if (t1_to_t2) {
+            return pair(currentItemType, t1_to_t2);
+        }
+        if (t2_to_t1) {
+            return pair(currentValueType, t2_to_t1);
+        }
+
+        return currentValue;
+    }, null, args);
+
+    const coerceTo = type_tag(coercionData);
+    const coerceFunction = contents(coercionData);
+
+    const newArgs = map((arg) => {
+        const type = type_tag(arg);
+        if (type === coerceTo) {
+            return arg;
+        }
+        return coerceFunction(arg);
+    }, args);
+    return accumulate((currentItem, currentValue) => {
+        if (is_null(currentValue)) {
+            return currentItem;
+        }
+        return apply_generic(op, list(currentValue, currentItem));
+    }, null, newArgs);
 }
 
 function add(...args) {
@@ -232,26 +248,15 @@ function make_javascript_number(n) {
     return get("make", "javascript_number")(n);
 }
 
-// function javascript_number_to_javascript_number(n) {
-//     return n;
-// }
-// function complex_to_complex(n) {
-//     return n;
-// }
-// put_coercion("javascript_number", "javascript_number",
-//     javascript_number_to_javascript_number);
-// put_coercion("complex", "complex",
-//     complex_to_complex);
+
 put_coercion("javascript_number", "complex",
     javascript_number_to_complex);
 function exp(x, y) {
     return apply_generic("exp", list(x, y));
 }
-const c = make_complex_from_real_imag(4, 3);
-const d = make_complex_from_real_imag(5, 6);
+const c = make_complex_from_real_imag(222, 1);
+const d = make_complex_from_real_imag(4, 55);
 const e = make_javascript_number(7);
 const f = make_javascript_number(2);
-//
-debugger;
-const ans = add(c, d, f, e);
+const ans = add(e, c, d);
 // display(ans);

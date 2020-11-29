@@ -178,8 +178,10 @@ const accumulate = (op, initial, sequence) => {
     if (is_null(sequence)) {
         return initial;
     }
-    return op(head(sequence),
-        accumulate(op, initial, tail(sequence)));
+    return op(
+        head(sequence),
+        accumulate(op, initial, tail(sequence))
+    );
 }
 
 const accumulate_n = (op, initial, seqs) => {
