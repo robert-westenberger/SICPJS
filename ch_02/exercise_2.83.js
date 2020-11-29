@@ -322,10 +322,15 @@ function exp(x, y) {
     return apply_generic("exp", list(x, y));
 }
 
-const integer_number = make_javascript_number(7);
+
+const integer_number = make_javascript_number(335); // doesnt actually check if its an integer
 const rational_number  = raise(integer_number);
 const real_number = raise(rational_number);
 const complex_number = raise(real_number);
 
+display(integer_number);
+display(rational_number);
+display(real_number);
+display(complex_number);
 
 
