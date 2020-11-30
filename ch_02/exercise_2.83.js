@@ -305,28 +305,31 @@ function make_javascript_number(n) {
 
 
 put_coercion("javascript_number", "rational", x => get("make", "rational")(x, 1));
-put("raise", list("javascript_number"), x => get_coercion("javascript_number", "rational")(x));
+
 
 put_coercion("rational", "real", x => get("make", "real")(x));
-put("raise", list("rational"), x => get_coercion("rational", "real")(x));
+
 
 put_coercion("real", "complex", x => get("make_from_real_imag", "complex")(x, 0));
-put("raise", list("real"), x => get_coercion("real", "complex")(x));
 
+
+put("raise", list("javascript_number"), x => get_coercion("javascript_number", "rational")(x));
+put("raise", list("rational"), x => get_coercion("rational", "real")(x));
+put("raise", list("real"), x => get_coercion("real", "complex")(x));
 
 function exp(x, y) {
     return apply_generic("exp", list(x, y));
 }
 
 
-const javascript_number = make_javascript_number(335); // doesnt actually check if its an integer
-const rational_number  = raise(javascript_number);
-const real_number = raise(rational_number);
-const complex_number = raise(real_number);
-
-display(javascript_number);
-display(rational_number);
-display(real_number);
-display(complex_number);
+// const javascript_number = make_javascript_number(335); // doesnt actually check if its an integer
+// const rational_number  = raise(javascript_number);
+// const real_number = raise(rational_number);
+// const complex_number = raise(real_number);
+//
+// display(javascript_number);
+// display(rational_number);
+// display(real_number);
+// display(complex_number);
 
 
