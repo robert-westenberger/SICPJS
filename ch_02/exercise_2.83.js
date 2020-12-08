@@ -8,14 +8,18 @@ import {
     pair,
     get,
     divide,
+    is_number,
     math_exp,
     contents,
+    list_ref,
+    list_index_exists,
     display, is_null, equal,
     math_sqrt,
     math_atan,
     is_undefined,map,length,apply,type_tag,
     put_coercion,
-    get_coercion
+    get_coercion,
+    index_of
 } from "../general/index";
 
 
@@ -85,9 +89,7 @@ function angle(z) {
     return apply_generic("angle", list(z));
 }
 
-function raise(z) {
-    return apply_generic("raise", list(z));
-}
+
 
 function install_rectangular_package() {
     // internal functions
@@ -317,6 +319,19 @@ put("raise", list("javascript_number"), x => get_coercion("javascript_number", "
 put("raise", list("rational"), x => get_coercion("rational", "real")(x));
 put("raise", list("real"), x => get_coercion("real", "complex")(x));
 
+
+function raise(z) {
+    const types = list("javascript_number", "rational", "real", "complex");
+    const type = type_tag(z);
+    const type_index = index_of(types, type);
+    const supertype_exists = is_number(type_index) ? list_index_exists(types, type_index + 1) : null;
+    if (supertype_exists) {
+        return apply_generic("raise", list(z));
+    }
+    // throw error...?
+    return null;
+}
+
 function exp(x, y) {
     return apply_generic("exp", list(x, y));
 }
@@ -326,10 +341,13 @@ function exp(x, y) {
 // const rational_number  = raise(javascript_number);
 // const real_number = raise(rational_number);
 // const complex_number = raise(real_number);
+// const test_raised_complex_number = raise(complex_number);
 //
 // display(javascript_number);
 // display(rational_number);
 // display(real_number);
 // display(complex_number);
+// console.log(test_raised_complex_number);
+
 
 

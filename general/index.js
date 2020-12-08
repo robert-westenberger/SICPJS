@@ -48,11 +48,12 @@ const listToArray = (the_list) => {
 const list_ref = (items, n) => {
     return n === 0 ? head(items) : list_ref(tail(items), n - 1);
 }
+
 const is_null = (item) => item === null;
 const list_length = (items) => {
     return is_null(items) ? 0 : 1 + list_length(tail(items));
 }
-
+const list_index_exists = (items, n) => list_length(items) > n;
 const index_of = (items, item) => {
     const index_of_impl = (items, item, currIndex) => {
 
@@ -557,5 +558,7 @@ module.exports = {
     put_coercion,
     get_coercion,
     math_exp,
-    index_of
+    index_of,
+    list_ref,
+    list_index_exists
 }
