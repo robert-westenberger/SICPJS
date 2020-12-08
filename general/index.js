@@ -53,6 +53,20 @@ const list_length = (items) => {
     return is_null(items) ? 0 : 1 + list_length(tail(items));
 }
 
+const index_of = (items, item) => {
+    const index_of_impl = (items, item, currIndex) => {
+
+        if (is_null(items)) {
+            return null;
+        }
+        if(equal(item, head(items))) {
+            return currIndex;
+        }
+        return index_of_impl(tail(items), item, currIndex + 1);
+    }
+
+    return index_of_impl(items, item, 0);
+}
 
 const append = (list1, list2) => {
     return is_null(list1) ? list2 : pair(head(list1), append(tail(list1), list2));
@@ -542,5 +556,6 @@ module.exports = {
     get, put, equal,
     put_coercion,
     get_coercion,
-    math_exp
+    math_exp,
+    index_of
 }
