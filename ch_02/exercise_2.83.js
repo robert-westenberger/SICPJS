@@ -319,9 +319,8 @@ put("raise", list("javascript_number"), x => get_coercion("javascript_number", "
 put("raise", list("rational"), x => get_coercion("rational", "real")(x));
 put("raise", list("real"), x => get_coercion("real", "complex")(x));
 
-
+const types = list("javascript_number", "rational", "real", "complex");
 function raise(z) {
-    const types = list("javascript_number", "rational", "real", "complex");
     const type = type_tag(z);
     const type_index = index_of(types, type);
     const supertype_exists = is_number(type_index) ? list_index_exists(types, type_index + 1) : null;

@@ -15,67 +15,18 @@ import {
     math_atan,
     is_undefined, map, length, apply, type_tag,
     put_coercion,
-    get_coercion, accumulate
+    get_coercion, accumulate, index_of, is_number, list_index_exists,
+    contains
 } from "../general/index";
+import {list_ref} from "../general";
 
 
 function gcd(a, b) {
     return b === 0 ? a : gcd(b, a % b);
 }
-// copy from exercise 2.82
-function apply_generic(op, args) {
-    const type_tags = map(type_tag, args);
-    const fun = get(op, type_tags);
-    if (!is_undefined(fun)) {
-        return apply(fun, map(contents, args));
-    }
 
-    const coercionData = accumulate((currentItem, currentValue) => {
-
-        if (is_null(currentValue)) {
-            return pair(type_tag(currentItem)); // type
-        }
-
-        const currentItemType = type_tag(currentItem);
-        const currentValueType = type_tag(currentValue);
-
-        if (currentValueType === currentItemType) {
-            return currentValue;
-        }
-
-        const t1_to_t2 = get_coercion(currentValueType, currentItemType);
-        const t2_to_t1 = get_coercion(currentItemType, currentValueType);
-
-        if (t1_to_t2) {
-            return pair(currentItemType, t1_to_t2);
-        }
-        if (t2_to_t1) {
-            return pair(currentValueType, t2_to_t1);
-        }
-
-        return currentValue;
-    }, null, args);
-
-    const coerceTo = type_tag(coercionData);
-    const coerceFunction = contents(coercionData);
-
-    const newArgs = map((arg) => {
-        const type = type_tag(arg);
-        if (type === coerceTo) {
-            return arg;
-        }
-        return coerceFunction(arg);
-    }, args);
-    return accumulate((currentItem, currentValue) => {
-        if (is_null(currentValue)) {
-            return currentItem;
-        }
-        return apply_generic(op, list(currentValue, currentItem));
-    }, null, newArgs);
-}
-
-function add(x, y) {
-    return apply_generic("add", list(x, y));
+function add(...args) {
+    return apply_generic("add", list(...args));
 }
 function sub(x, y) {
     return apply_generic("sub", list(x, y));
@@ -100,9 +51,7 @@ function angle(z) {
     return apply_generic("angle", list(z));
 }
 
-function raise(z) {
-    return apply_generic("raise", list(z));
-}
+
 
 function install_rectangular_package() {
     // internal functions
@@ -242,12 +191,7 @@ function javascript_number_to_complex(n) {
 function make_complex_from_real_imag(x, y){
     return get("make_from_real_imag", "complex")(x, y);
 }
-function make_real_number(x) {
-    return get("make", "real")(pair(x, 1));
-}
-function make_rational_number(x) {
-    return get("make", "rational")(x, 1);
-}
+
 function make_complex_from_mag_ang(r, a){
     return get("make_from_mag_ang", "complex")(r, a);
 }
@@ -324,41 +268,89 @@ function make_javascript_number(n) {
 }
 
 
-put_coercion("javascript_number", "complex",
-    javascript_number_to_complex);
+put_coercion("javascript_number", "rational", x => get("make", "rational")(x, 1));
 
 
+put_coercion("rational", "real", x => get("make", "real")(x));
 
-put("raise", list("javascript_number"),
-    x => get("make", "rational")(x, 1));
 
-put("raise", list("rational"),
-    x => get("make", "real")(x));
+put_coercion("real", "complex", x => get("make_from_real_imag", "complex")(x, 0));
 
-put("raise", list("real"),
-    x => make_complex_from_real_imag(x, 0));
 
+put("raise", list("javascript_number"), x => get_coercion("javascript_number", "rational")(x));
+put("raise", list("rational"), x => get_coercion("rational", "real")(x));
+put("raise", list("real"), x => get_coercion("real", "complex")(x));
+
+const types = list("javascript_number", "rational", "real", "complex");
+
+/**
+ * if target_type exists, will successively raise until z is at that target.
+ * Just assume target_type and type of z are in tower.
+ * @param z
+ * @param target_type
+ * @returns {null}
+ */
+function raise(z, target_type) {
+    const type = type_tag(z);
+    const type_index = index_of(types, type);
+    const supertype_exists = is_number(type_index) ? list_index_exists(types, type_index + 1) : null;
+
+
+    if (supertype_exists && target_type && type !== target_type) {
+        return raise(apply_generic("raise", list(z)), target_type);
+    }
+
+    if (supertype_exists) {
+        return apply_generic("raise", list(z));
+    }
+    if (target_type && type === target_type) {
+        return z;
+    }
+    // throw error...?
+    return null;
+}
+function find_highest_type(args) {
+    const highest_index = accumulate((arg, cv) => {
+        if (is_null(cv)) {
+            return 0;
+        }
+        const arg_type = type_tag(arg);
+        const arg_in_tower = contains(types, arg_type);
+        const index_of_arg = arg_in_tower ? index_of(types, arg_type) : -1;
+        if (index_of_arg > cv) {
+            return index_of_arg;
+        }
+        return cv;
+    }, null, args);
+    return list_ref(types, highest_index);
+}
 function exp(x, y) {
     return apply_generic("exp", list(x, y));
 }
 
-// const integer_number = make_javascript_number(335); // doesnt actually check if its an integer
-// const rational_number  = raise(integer_number);
-// const real_number = raise(rational_number);
-// const complex_number = raise(real_number);
-//
-// display(integer_number);
-// display(rational_number);
-// display(real_number);
-// display(complex_number);
 
-const javascript_number = make_javascript_number(1);
-const rational_number = make_rational_number(1.75);
-const real_number = make_real_number(Math.PI);
-const complex_number = make_complex_from_real_imag(222, 45);
-//
-//
-display(javascript_number);
-display(rational_number);
-display(real_number);
-display(complex_number);
+// copy from exercise 2.82
+function apply_generic(op, args) {
+    const type_tags = map(type_tag, args);
+    const fun = get(op, type_tags);
+    if (!is_undefined(fun)) {
+        return apply(fun, map(contents, args));
+    }
+
+    const highest_type = find_highest_type(args);
+
+    const new_args = map(arg => raise(arg, highest_type), args);
+    return accumulate((currentItem, currentValue) => {
+        if (is_null(currentValue)) {
+            return currentItem;
+        }
+        return apply_generic(op, list(currentValue, currentItem));
+    }, null, new_args);
+}
+
+const c = make_complex_from_real_imag(222, 1);
+const d = make_complex_from_real_imag(4, 55);
+const e = make_javascript_number(7);
+const f = make_javascript_number(2);
+const ans = add(e, c, d, f);
+
