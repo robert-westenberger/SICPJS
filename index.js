@@ -36,4 +36,5 @@
 // import { } from "./ch_02/exercise_2.81";
 // import { } from "./ch_02/exercise_2.82";
 // import { } from "./ch_02/exercise_2.83";
-import { } from "./ch_02/exercise_2.84";
+// import { } from "./ch_02/exercise_2.84";
+import { } from "./ch_02/exercise_2.85";
