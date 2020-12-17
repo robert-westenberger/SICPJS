@@ -30,11 +30,14 @@
 // import { } from "./ch_02/exercise_2.75";
 // import { } from "./ch_02/exercise_2.77";
 // import { } from "./ch_02/exercise_2.78";
-// TODO: skip over exercise 2.79 and 2.90 for now
+// TODO: skip over exercise 2.79 and 2.80 for now
 // import { } from "./ch_02/exercise_2.79";
 // import { } from "./ch_02/section_2.5.systems_with_generic_operations";
 // import { } from "./ch_02/exercise_2.81";
 // import { } from "./ch_02/exercise_2.82";
 // import { } from "./ch_02/exercise_2.83";
 // import { } from "./ch_02/exercise_2.84";
-import { } from "./ch_02/exercise_2.85";
+// TODO: skip over exercise 2.85 and 2.86 for now
+// import { } from "./ch_02/exercise_2.85";
+// import { } from "./ch_03/section_3.1.assignment_and_local_state";
+// import { } from "./ch_03/exercises/3.1";

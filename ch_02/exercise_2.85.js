@@ -309,6 +309,37 @@ function raise(z, target_type) {
     // throw error...?
     return null;
 }
+
+/**
+ * inverse of raise. Will drop a type down (if possible).
+ * @param z
+ * @param target_type
+ * @returns {null}
+ */
+function drop(z, target_type) {
+
+    return null;
+    const type = type_tag(z);
+    const type_index = index_of(types, type);
+    const subtype_exists = is_number(type_index) ? list_index_exists(types, type_index - 1) : null;
+
+
+    if (subtype_exists && target_type && type !== target_type) {
+        return raise(apply_generic("drop", list(z)), target_type);
+    }
+
+    if (subtype_exists) {
+        return apply_generic("drop", list(z));
+    }
+    if (target_type && type === target_type) {
+        return z;
+    }
+    // throw error...?
+    return null;
+}
+function project(z, target_type) {
+
+}
 function find_highest_type(args) {
     const highest_index = accumulate((arg, cv) => {
         if (is_null(cv)) {
