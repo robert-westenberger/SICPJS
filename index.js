@@ -41,3 +41,4 @@
 // import { } from "./ch_02/exercise_2.85";
 // import { } from "./ch_03/section_3.1.assignment_and_local_state";
 // import { } from "./ch_03/exercises/3.1";
+// import { } from "./ch_03/exercises/3.2";
