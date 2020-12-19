@@ -509,7 +509,32 @@ const math_exp = Math.exp;
 
 
 
+function make_rand(js_prng) {
+    const m = js_prng ? Math.floor( Math.random() * 10**10) : 200560490131;
+    const a = 1103515245;
+    const b = 12345;
+    let x = 123456789;
+
+    function rand_update(x) {
+        return (a * x + b) % m;
+    }
+
+    return () => {
+        x = rand_update(x);
+        return x;
+    };
+}
+const pseudo_rand = make_rand();
+const rand = make_rand(true);
+
+function gcd(a, b) {
+    return b === 0 ? a : gcd(b, a % b);
+}
+
+
 module.exports = {
+    gcd,
+    pseudo_rand,rand,
     math_atan, math_sqrt,
     is_same_variable,
     length,
