@@ -85,3 +85,54 @@ function estimate_pi(trials) {
 // const pi_2 = estimate_pi(num_trials);
 // console.log(pi_2, res(pi_2, native_pi));
 // console.log(res(pi, pi_2));
+
+function random(n) {
+    return Math.random() * n;
+}
+
+function random_in_range(low, high) {
+    const range = high - low;
+    return low + random(range);
+}
+
+
+/***
+ *
+ * @param x1
+ * @param x2
+ * @param y1
+ * @param y2
+ * @param trials
+ */
+function estimate_integral(x1, x2, y1, y2, trials) {
+    const circle_center_x = 0;
+    const circle_center_y = 0;
+    const circle_radius = 0.5;
+    const predicate = (x, y) => {
+        const a = ((x - circle_center_x)**2);
+        const b = ((y - circle_center_y)**2);
+        const c = circle_radius**2;
+        return a + b <= c;
+    };
+
+
+    function monte_carlo_non_recurse(trials, experiment) {
+        let trials_passed = 0;
+        for (let i = 0; i <= trials; i++) {
+            let random_point_x = random_in_range(x1, x2);
+            let random_point_y = random_in_range(y1, y2);
+            if (experiment(random_point_x, random_point_y)) trials_passed++;
+        }
+        return trials_passed / trials;
+    }
+    const width = Math.abs(x1 - x2);
+    const length = Math.abs(y1 - y2);
+    const area = width * length;
+    const test = monte_carlo_non_recurse(trials, predicate);
+    return (area * test) / circle_radius**2;
+
+}
+
+
+const a = estimate_integral(-1, 1, -1, 1, 10**7);
+console.log(a);
