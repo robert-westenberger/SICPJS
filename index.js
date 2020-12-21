@@ -48,4 +48,5 @@
 // import { } from "./ch_03/section_3.1.assignment_and_local_state";
 // import { } from "./ch_03/exercises/3.5";
 // TODO: skipped exercise 3.6
-import { } from "./ch_03/exercises/3.7";
+// import { } from "./ch_03/exercises/3.7";
+import { } from "./ch_03/exercises/3.8";
