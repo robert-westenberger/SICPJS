@@ -1,6 +1,7 @@
 import {
     list,
     append,
+    is_null,
     pair,
     make_cycle,
     set_tail, set_head, last_pair,
@@ -18,12 +19,24 @@ function new_pair(x, y) {
     return fresh;
 }
 
-const z1 = list("a", "b", "c");
-const z2 = last_pair(z1);
-display(z1);
-display(z2);
+const v = list("a", "b", "c", "d");
+// 1 - What does mystery fn do?
+function mystery(x) {
+    function loop(x, y) {
+        if (is_null(x)) {
+            return y;
+        } else {
+            const temp = tail(x);
+            set_tail(x, y);
+            return loop(temp, x);
+        }
+    }
+    return loop(x, null);
+}
+
 debugger;
-const z3 = make_cycle(z1);
+// What is printed as values of v and w?
+const w = mystery(v);
 
 
 
