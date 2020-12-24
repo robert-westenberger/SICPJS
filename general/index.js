@@ -347,6 +347,18 @@ function set_tail(xs, x) {
         )
     }
 }
+
+function set_head(xs, x) {
+    if (is_pair(xs)) {
+        xs.head = x;
+        return undefined;
+    } else {
+        throw new Error(
+            'set_head(xs,x) expects a pair as argument xs, but encountered ' + JSON.stringify(xs)
+        )
+    }
+}
+
 function assoc(key, records) {
     return is_null(records)
         ? undefined
@@ -545,6 +557,7 @@ module.exports = {
     assoc,
     contents,
     set_tail,
+    set_head,
     is_string,
     is_variable,
     is_object,
