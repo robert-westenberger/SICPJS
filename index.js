@@ -49,4 +49,5 @@
 // import { } from "./ch_03/exercises/3.5";
 // TODO: skipped exercise 3.6
 // import { } from "./ch_03/exercises/3.7";
-import { } from "./ch_03/exercises/3.8";
+// import { } from "./ch_03/exercises/3.8";
+// Exercise 3.9, 3.10 requires no code
