@@ -2,7 +2,8 @@ import {
     list,
     append,
     pair,
-    set_tail, set_head,
+    make_cycle,
+    set_tail, set_head, last_pair,
     display, tail, append_mutator
 } from "../../general/index";
 
@@ -17,11 +18,13 @@ function new_pair(x, y) {
     return fresh;
 }
 
-const test = new_pair(new_pair(1, 2), 4);
-const x = list("a", "b");
-const y = list("c", "d");
-const z = append(x,y);
-// first response tail(x) -> [b, null]
-const w = append_mutator(x, y);
-display(w);
-display(tail(w));
+const z1 = list("a", "b", "c");
+const z2 = last_pair(z1);
+display(z1);
+display(z2);
+debugger;
+const z3 = make_cycle(z1);
+
+
+
+

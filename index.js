@@ -52,3 +52,5 @@
 // import { } from "./ch_03/exercises/3.8";
 // Exercise 3.9, 3.10 requires no code
 import { } from "./ch_03/section_3.3.modeling_with_mutable_data";
+// import { } from "./ch_03/exercises/3.12";
+import { } from "./ch_03/exercises/3.13";

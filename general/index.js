@@ -82,7 +82,22 @@ const append = (list1, list2) => {
     return is_null(list1) ? list2 : pair(head(list1), append(tail(list1), list2));
 }
 
-const last_pair = (x) => is_null(tail(x)) ? x : last_pair(tail(x));
+const last_pair = (x) =>
+    is_null(tail(x)) ? x :
+        last_pair(tail(x));
+
+/**
+ * make_cycle - sets the tail of the last
+ * pair of x (formerly null) to that of
+ * the entirety of the list. Creates
+ * an infinite cycle
+ * @param x - pair / list
+ * @returns {*}
+ */
+const make_cycle = (x) => {
+    set_tail(last_pair(x), x);
+    return x;
+}
 const append_mutator = (x, n) => {
     set_tail(last_pair(x), n);
     return x;
@@ -616,5 +631,6 @@ module.exports = {
     list_index_exists,
     contains,
     last_pair,
+    make_cycle,
     append_mutator
 }
