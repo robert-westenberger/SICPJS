@@ -33,10 +33,9 @@ function mystery(x) {
     }
     return loop(x, null);
 }
-
-debugger;
-// What is printed as values of v and w?
+// reverses order of w
 const w = mystery(v);
+
 
 
 
