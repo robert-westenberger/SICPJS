@@ -23,4 +23,5 @@ const y = list("c", "d");
 const z = append(x,y);
 // first response tail(x) -> [b, null]
 const w = append_mutator(x, y);
-
+display(w);
+display(tail(w));

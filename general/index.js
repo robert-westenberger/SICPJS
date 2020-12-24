@@ -82,6 +82,12 @@ const append = (list1, list2) => {
     return is_null(list1) ? list2 : pair(head(list1), append(tail(list1), list2));
 }
 
+const last_pair = (x) => is_null(tail(x)) ? x : last_pair(tail(x));
+const append_mutator = (x, n) => {
+    set_tail(last_pair(x), n);
+    return x;
+}
+
 const for_each = (fn, list) => {
     if (is_null(list)) {
         return null;
@@ -608,5 +614,7 @@ module.exports = {
     index_of,
     list_ref,
     list_index_exists,
-    contains
+    contains,
+    last_pair,
+    append_mutator
 }
