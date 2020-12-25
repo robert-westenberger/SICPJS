@@ -3,6 +3,7 @@ import {
     is_pair,
     pair,
     head,
+    make_cycle,
     set_tail, set_head, last_pair,
     display, tail, append_mutator
 } from "../../general/index";
@@ -26,6 +27,3 @@ function count_pairs(x) {
         count_pairs(tail(x)) + 1;
 }
 
-const z1 = list(1, 2, 3);
-const z1_count = count_pairs(z1);
-console.log(z1_count);
