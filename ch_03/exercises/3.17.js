@@ -1,10 +1,10 @@
 import {
     list,
     is_pair,
+    is_null,
     pair,
-    head, make_cycle,
-    set_tail, set_head, last_pair,
-    display, tail, append_mutator
+    head,
+    set_tail, set_head, tail, append_mutator,
 } from "../../general/index";
 
 function get_new_pair() {
@@ -19,21 +19,41 @@ function new_pair(x, y) {
 }
 
 
-function count_pairs(x) {
+function count_pairs_orig(x) {
     return !is_pair(x)
         ? 0
-        : count_pairs(head(x)) +
-        count_pairs(tail(x)) + 1;
+        : count_pairs_orig(head(x)) +
+        count_pairs_orig(tail(x)) + 1;
 }
 
-const z1 = pair(1, null);
-const z3 = list(1, 2, 3);
-const z4 = pair(z1, pair(z1, null));
-const z3_count = count_pairs(z3);
-const zx = pair(z1, z1);
-const z7 = pair(zx,zx);
-const z_infinite = make_cycle(z3);
-console.log(z3_count);
-console.log(count_pairs(z4));
-console.log(count_pairs(z7));
-// console.log(count_pairs(z_infinite));
+function count_pairs(x) {
+    let unique_pairs = null;
+
+    const contains = (lst, item) => {
+        if (is_null(lst)) {
+            return false;
+        }
+
+        if (lst === item) {
+            return true;
+        }
+        return contains(tail(lst), item);
+    }
+
+    const count_pairs_iter = (arg) => {
+        if (is_pair(arg)) {
+            if (is_null(unique_pairs)) {
+                unique_pairs = list(arg);
+                return count_pairs_iter(head(arg)) +
+                    count_pairs_iter(tail(arg)) + 1;
+            }
+            if (!contains(unique_pairs, arg)) {
+                append_mutator(unique_pairs, arg);
+                return count_pairs_iter(head(arg)) +
+                    count_pairs_iter(tail(arg)) + 1;
+            }
+        }
+        return 0;
+    }
+    return count_pairs_iter(x);
+}

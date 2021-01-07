@@ -57,4 +57,5 @@
 // import { } from "./ch_03/exercises/3.14";
 // import { } from "./ch_03/exercises/3.14";
 // import { } from "./ch_03/exercises/3.16";
-import { } from "./ch_03/exercises/3.17";
+// todo: confirm that 3.17 solution is correct.
+// import { } from "./ch_03/exercises/3.17";
