@@ -60,6 +60,6 @@
 // todo: confirm that 3.17 solution is correct.
 // import { } from "./ch_03/exercises/3.17";
 // TODO: exercise 3.18 & 3.19 (cycle detection)
-// import { } from "./ch_03/exercises/3.18";
+import { } from "./ch_03/exercises/3.18";
 // import { } from "./ch_03/exercises/3.19";
 // Exercise 3.20 Requires no code

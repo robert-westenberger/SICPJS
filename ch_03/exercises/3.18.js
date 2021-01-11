@@ -9,20 +9,20 @@ import {
 } from "../../general/index";
 
 
-const not_cycle = list(1, 2, 3, 4);
-const cycle = make_cycle(list(1, 2, 3, 4));
+// const not_cycle = list(1, 2, 3, 4);
+// const cycle = make_cycle(list(1, 2, 3, 4));
+//
+//
+// const is_cycle = (x) => {
+//     let visited_items = null;
+//     const is_cycle_iter = (arg) => {
+//
+//     }
+//     return is_cycle_iter(x);
+// }
+//
+//
+// const t0 = is_cycle(not_cycle);
 
-
-const is_cycle = (x) => {
-    let visited_items = null;
-    const is_cycle_iter = (arg) => {
-       
-    }
-    return is_cycle_iter(x);
-}
-
-
-const t0 = is_cycle(not_cycle);
-console.log(t0);
 // const t1 = is_cycle(cycle);
 // console.log(t1);
