@@ -683,5 +683,14 @@ module.exports = {
     contains,
     last_pair,
     make_cycle,
-    append_mutator
+    append_mutator,
+    // 3.3.2
+    make_queue,
+    delete_queue,
+    front_queue,
+    is_empty_queue,
+    insert_queue,
+    front_ptr,
+    rear_ptr
 }
+

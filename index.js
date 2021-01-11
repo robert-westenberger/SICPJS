@@ -63,3 +63,4 @@
 import { } from "./ch_03/exercises/3.18";
 // import { } from "./ch_03/exercises/3.19";
 // Exercise 3.20 Requires no code
+import { } from "./ch_03/exercises/3.21";
