@@ -25,6 +25,7 @@
 // import { } from "./ch_02/exercise_2.54";
 // import { } from "./ch_02/exercise_2.56";
 // import { } from "./ch_02/exercise_2.57";
+import { } from "./ch_02/exercise_2.66";
 // import { } from "./ch_02/exercise_2.73";
 // import { } from "./ch_02/exercise_2.74";
 // import { } from "./ch_02/exercise_2.75";
@@ -60,7 +61,8 @@
 // todo: confirm that 3.17 solution is correct.
 // import { } from "./ch_03/exercises/3.17";
 // TODO: exercise 3.18 & 3.19 (cycle detection)
-import { } from "./ch_03/exercises/3.18";
+// import { } from "./ch_03/exercises/3.18";
 // import { } from "./ch_03/exercises/3.19";
 // Exercise 3.20 Requires no code
-import { } from "./ch_03/exercises/3.21";
+// import { } from "./ch_03/exercises/3.21";
+// TODO: skipped 3.22, 3.23 for now
