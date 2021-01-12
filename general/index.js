@@ -539,8 +539,29 @@ const math_exp = Math.exp;
 
 
 
+// 2.3.3 Representing Sets
+function is_element_of_set(x, set) {
+    return is_null(set)
+        ? false
+        : equal(x, head(set))
+            ? true
+            : is_element_of_set(x, tail(set));
+}
 
+function adjoin_set(x, set) {
+    return is_element_of_set(x, set)
+        ? set
+        : pair(x, set);
+}
 
+function intersection_set(set1, set2) {
+    return is_null(set1) || is_null(set2)
+        ? null
+        : is_element_of_set(head(set1), set2)
+            ? pair(head(set1),
+                intersection_set(tail(set1), set2))
+            : intersection_set(tail(set1), set2);
+}
 
 function make_rand(js_prng) {
     const m = js_prng ? Math.floor( Math.random() * 10**10) : 200560490131;
@@ -612,7 +633,7 @@ function front_queue(queue) {
         : head(front_ptr(queue));
 }
 
-const q = pair(pair(1,2), 3);
+
 
 
 
@@ -684,6 +705,10 @@ module.exports = {
     last_pair,
     make_cycle,
     append_mutator,
+    // 2.3.3 representing sets
+    is_element_of_set,
+    adjoin_set,
+    intersection_set,
     // 3.3.2
     make_queue,
     delete_queue,
@@ -691,6 +716,6 @@ module.exports = {
     is_empty_queue,
     insert_queue,
     front_ptr,
-    rear_ptr
+    rear_ptr,
 }
 
