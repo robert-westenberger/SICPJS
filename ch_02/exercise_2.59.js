@@ -23,8 +23,6 @@ function union_set(set1, set2) {
         return union_set(tail(set1), set2);
     }
     return union_set(tail(set1), adjoin_set(h1, set2))
-
-
 }
 
 const set_1 = list(10, 20, 30);
